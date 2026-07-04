@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #050e1f;
+  color: #e8edf6;
+  overflow-x: hidden;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+h1, h2, h3, h4, .font-display {
+  font-family: "Sora", system-ui, sans-serif;
+}
+
+::selection {
+  background: rgba(212, 175, 55, 0.35);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #050e1f;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#1e4685, #d4af37);
+  border-radius: 8px;
+}
+
+/* ---------- utility layers ---------- */
+@layer utilities {
+  .text-gold-gradient {
+    background: linear-gradient(120deg, #f0d78a 0%, #d4af37 45%, #b8941f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-shimmer {
+    background: linear-gradient(
+      110deg,
+      #f0d78a 20%,
+      #fff8e1 40%,
+      #d4af37 60%,
+      #f0d78a 80%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 3.2s linear infinite;
+  }
+  .glass {
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .glass-strong {
+    background: rgba(10, 26, 51, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+  .noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* ---------- reveal on scroll ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 0.9s var(--ease-out-expo);
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s var(--ease-out-expo),
+    transform 0.8s var(--ease-out-expo);
+}
+.reveal-stagger.in > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-stagger.in > *:nth-child(1) { transition-delay: 0s; }
+.reveal-stagger.in > *:nth-child(2) { transition-delay: 0.07s; }
+.reveal-stagger.in > *:nth-child(3) { transition-delay: 0.14s; }
+.reveal-stagger.in > *:nth-child(4) { transition-delay: 0.21s; }
+.reveal-stagger.in > *:nth-child(5) { transition-delay: 0.28s; }
+.reveal-stagger.in > *:nth-child(6) { transition-delay: 0.35s; }
+
+/* ---------- hero word reveal ---------- */
+@keyframes wordUp {
+  from { opacity: 0; transform: translateY(110%) rotate(2deg); }
+  to { opacity: 1; transform: translateY(0) rotate(0); }
+}
+.word-mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.08em; }
+.word-mask > span {
+  display: inline-block;
+  animation: wordUp 1s var(--ease-out-expo) both;
+}
+
+/* ---------- 3D tilt card ---------- */
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.5s var(--ease-out-expo), box-shadow 0.5s var(--ease-out-expo);
+  will-change: transform;
+}
+.tilt-card:hover {
+  box-shadow: 0 4px 8px rgba(3,10,23,.4), 0 20px 40px rgba(3,10,23,.5), 0 60px 100px rgba(3,10,23,.45);
+}
+.tilt-card .tilt-inner { transform: translateZ(30px); }
+
+/* ---------- gold button glow ---------- */
+.btn-gold {
+  position: relative;
+  background: linear-gradient(120deg, #e5c25d, #d4af37 55%, #b8941f);
+  color: #050e1f;
+  font-weight: 700;
+  transition: transform 0.35s var(--ease-out-expo), box-shadow 0.35s var(--ease-out-expo);
+}
+.btn-gold:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 0 1px rgba(212,175,55,.4), 0 0 44px rgba(212,175,55,.35), 0 16px 40px rgba(3,10,23,.6);
+}
+.btn-gold:active { transform: translateY(0) scale(0.99); }
+
+.btn-ghost {
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  transition: all 0.35s var(--ease-out-expo);
+}
+.btn-ghost:hover {
+  border-color: rgba(212,175,55,0.5);
+  background: rgba(212,175,55,0.08);
+  transform: translateY(-2px);
+}
+
+/* ---------- flip card ---------- */
+.flip { perspective: 1200px; }
+.flip-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s var(--ease-out-expo);
+}
+.flip:hover .flip-inner { transform: rotateY(180deg); }
+.flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-back { transform: rotateY(180deg); }
+
+/* ---------- approved stamp ---------- */
+@keyframes stampIn {
+  0% { opacity: 0; transform: scale(2.4) rotate(-18deg); }
+  55% { opacity: 1; transform: scale(0.92) rotate(-12deg); }
+  75% { transform: scale(1.06) rotate(-12deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-12deg); }
+}
+.stamp {
+  border: 3px solid rgba(52, 211, 153, 0.85);
+  color: rgba(52, 211, 153, 0.95);
+  animation: stampIn 0.7s var(--ease-out-expo) both;
+  animation-play-state: paused;
+}
+.in .stamp { animation-play-state: running; }
+
+/* ---------- process line ---------- */
+.process-line {
+  background: linear-gradient(to bottom, #d4af37 var(--fill, 0%), rgba(255,255,255,0.1) var(--fill, 0%));
+}
+
+/* ---------- scroll indicator ---------- */
+@keyframes scrollDot {
+  0% { transform: translateY(0); opacity: 1; }
+  70% { transform: translateY(14px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+.scroll-dot { animation: scrollDot 1.8s ease-in-out infinite; }
+
+/* ---------- aurora blobs ---------- */
+@keyframes drift1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(60px,-40px) scale(1.15); }
+}
+@keyframes drift2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(-70px,50px) scale(1.1); }
+}
+.aurora-1 { animation: drift1 16s ease-in-out infinite; }
+.aurora-2 { animation: drift2 20s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
