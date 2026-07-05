@@ -1,31 +1,16 @@
 {
-  "name": "new-euro-consultants",
-  "version": "1.0.0",
-  "private": true,
+  "name": "workspace",
+  "version": "0.0.0",
+  "license": "MIT",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start -p ${PORT:-3000}",
-    "db:push": "drizzle-kit push",
-    "lint": "next lint"
+    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
+    "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "typecheck:libs": "tsc --build",
+    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
   },
-  "dependencies": {
-    "drizzle-orm": "^0.36.4",
-    "next": "^14.2.35",
-    "postgres": "^3.4.5",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "three": "^0.170.0"
-  },
+  "private": true,
   "devDependencies": {
-    "@types/node": "^20.17.10",
-    "@types/react": "18.3.12",
-    "@types/react-dom": "18.3.1",
-    "@types/three": "^0.170.0",
-    "autoprefixer": "^10.4.20",
-    "drizzle-kit": "^0.28.1",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.2"
+    "prettier": "^3.8.4",
+    "typescript": "~5.9.3"
   }
 }
